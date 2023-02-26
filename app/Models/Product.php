@@ -19,10 +19,18 @@ class Product extends Model
         return $this->belongsToMany(Order::class)->withPivot('total_quantity', 'total_price');
     }
 
-    public function price(): Attribute
+    // public function price(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn($value) => str_replace('.', ',', $value/100) .'$'
+    //     );
+    // }
+
+    // Laravel créer automatiquement une méthode formatted_price 
+    // si on respecte la forme suivante "getFormattedPriceAttribute"
+    public function getFormattedPriceAttribute()
     {
-        return Attribute::make(
-            get: fn($value) => str_replace('.', ',', $value/100) .'$'
-        );
+        return str_replace('.', ',', $this->price / 100) . '$';
     }
+
 }

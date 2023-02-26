@@ -12,13 +12,16 @@
 
 <script setup>
 
+    import useProduct from '../composables/products';
+
     const productId = defineProps(['productId']);
-    console.log(productId);
+    const { add } = useProduct();
+     
     const addToCart = async()  => {
         await axios.get('/sanctum/csrf-cookie');
         await axios.get('/api/user')
             .then(async(res) =>{
-                console.log(res);
+                    await add(productId);
             })
             .catch(err => console.log(err));
     }
